@@ -10,17 +10,17 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
-      NAUKRI_USERNAME: ${{ secrets.NAUKRI_USERNAME }}
-      NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
-      NAUKRI_PROFILE_NAME: ${{ secrets.NAUKRI_PROFILE_NAME }}
-      NAUKRI_HEADLINE: ${{ secrets.NAUKRI_HEADLINE }}
+      NAUKRI_USERNAME: 'vedpra9793@gmail.com'
+      NAUKRI_PASSWORD: 'ved@12345'
+      NAUKRI_PROFILE_NAME: 'Ved Prakash Yadav'
+      NAUKRI_HEADLINE: 'Immediate Joiner | SDET | 5+ Years | Java | Selenium | Playwright | API Automation | Rest Assured | Appium | CI/CD | Jenkins'
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
       NOTIFY_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL_TO }}
       WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
       WHATSAPP_APIKEY: ${{ secrets.WHATSAPP_APIKEY }}
-      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_BOT_TOKEN: '9059531703:AAFXEKpw2hP0z_Y4yvZhz_qmxCNlNFPIJrQ'
+      TELEGRAM_CHAT_ID: '6477155798'
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
