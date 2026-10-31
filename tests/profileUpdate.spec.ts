@@ -12,7 +12,11 @@ test('update Naukri resume headline', async ({ page }) => {
     await profile.open(config.profileName);
     await profile.updateResumeHeadline(headlineForToday(config.headline));
   } catch (error) {
-    await notify('❌ Naukri profile update FAILED', String(error).slice(0, 500));
+    const body = (await page.locator('body').innerText().catch(() => '')).replace(/\s+/g, ' ').slice(0, 300);
+    const details = `URL: ${page.url()}\nTitle: ${await page.title().catch(() => '')}\nPage text: ${body}`;
+    console.log(details);
+    await page.screenshot({ path: 'test-results/failure.png', fullPage: true }).catch(() => {});
+    await notify('❌ Naukri profile update FAILED', `${String(error).slice(0, 300)}\n${details}`);
     throw error;
   }
   await notify('✅ Naukri profile updated', 'Your resume headline was updated successfully.');
