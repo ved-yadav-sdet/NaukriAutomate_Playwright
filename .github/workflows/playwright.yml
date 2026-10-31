@@ -1,0 +1,38 @@
+name: Naukri Profile Update
+on:
+  schedule:
+    - cron: '45 3 * * *'  # 09:15 IST
+    - cron: '30 8 * * *'  # 14:00 IST
+    - cron: '15 11 * * *' # 16:45 IST
+  workflow_dispatch:
+jobs:
+  update:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    env:
+      NAUKRI_USERNAME: ${{ secrets.NAUKRI_USERNAME }}
+      NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
+      NAUKRI_PROFILE_NAME: ${{ secrets.NAUKRI_PROFILE_NAME }}
+      NAUKRI_HEADLINE: ${{ secrets.NAUKRI_HEADLINE }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      NOTIFY_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL_TO }}
+      WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+      WHATSAPP_APIKEY: ${{ secrets.WHATSAPP_APIKEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - run: npm ci
+    - run: npx playwright install --with-deps chrome
+    - name: Update profile
+      run: xvfb-run npm run update-profile
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 7
