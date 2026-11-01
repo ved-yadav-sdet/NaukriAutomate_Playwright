@@ -8,3 +8,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Saved login session (sensitive)
+auth.json
+auth.b64

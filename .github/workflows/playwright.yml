@@ -28,6 +28,11 @@ jobs:
         node-version: lts/*
     - run: npm ci
     - run: npx playwright install --with-deps chrome
+    - name: Restore saved Naukri session
+      env:
+        NAUKRI_AUTH: ${{ secrets.NAUKRI_AUTH }}
+      run: |
+        if [ -n "$NAUKRI_AUTH" ]; then echo "$NAUKRI_AUTH" | base64 -d > auth.json; fi
     - name: Update profile
       run: xvfb-run npm run update-profile
     - uses: actions/upload-artifact@v4

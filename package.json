@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "save-session": "node scripts/save-session.js",
     "update-profile": "playwright test tests/profileUpdate.spec.ts",
     "report": "playwright show-report"
   },
