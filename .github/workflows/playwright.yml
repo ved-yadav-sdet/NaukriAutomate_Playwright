@@ -1,10 +1,17 @@
 name: Naukri Profile Update
 on:
   schedule:
-    - cron: '45 3 * * *'  # 09:15 IST
-    - cron: '30 8 * * *'  # 14:00 IST
-    - cron: '15 11 * * *' # 16:45 IST
+    - cron: '15 3 * * *'  # 08:45 IST: resume re-upload
+    - cron: '30 3 * * *'  # 09:00 IST: headline
+    - cron: '15 8 * * *'  # 13:45 IST
+    - cron: '0 11 * * *'  # 16:45 IST
   workflow_dispatch:
+    inputs:
+      job:
+        description: 'What to run'
+        type: choice
+        options: [all, headline, resume]
+        default: all
 jobs:
   update:
     timeout-minutes: 15
@@ -26,8 +33,19 @@ jobs:
         NAUKRI_AUTH: ${{ secrets.NAUKRI_AUTH }}
       run: |
         if [ -n "$NAUKRI_AUTH" ]; then echo "$NAUKRI_AUTH" | base64 -d > auth.json; fi
-    - name: Update profile
-      run: xvfb-run npm run update-profile
+    - name: Pick job
+      id: pick
+      run: |
+        if [ "${{ github.event.schedule }}" = "15 3 * * *" ]; then echo "script=upload-resume" >> "$GITHUB_OUTPUT"
+        elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          case "${{ inputs.job }}" in
+            resume) echo "script=upload-resume" >> "$GITHUB_OUTPUT" ;;
+            headline) echo "script=update-profile" >> "$GITHUB_OUTPUT" ;;
+            *) echo "script=update-all" >> "$GITHUB_OUTPUT" ;;
+          esac
+        else echo "script=update-profile" >> "$GITHUB_OUTPUT"; fi
+    - name: Run ${{ steps.pick.outputs.script }}
+      run: xvfb-run npm run ${{ steps.pick.outputs.script }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
@@ -35,4 +53,5 @@ jobs:
         path: |
           playwright-report/
           test-results/
+          !test-results/**/resume/**
         retention-days: 7

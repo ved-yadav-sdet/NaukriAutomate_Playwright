@@ -6,6 +6,8 @@
   "scripts": {
     "save-session": "node scripts/save-session.js",
     "update-profile": "playwright test tests/profileUpdate.spec.ts",
+    "upload-resume": "playwright test tests/resumeUpload.spec.ts",
+    "update-all": "playwright test --workers=1",
     "report": "playwright show-report"
   },
   "keywords": [],
