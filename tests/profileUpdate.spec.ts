@@ -2,7 +2,7 @@ import fs from 'fs';
 import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { ProfilePage } from '../pages/ProfilePage';
-import { config, headlineForToday } from '../utils/config';
+import { config } from '../utils/config';
 import { notify } from '../utils/notify';
 
 const hasSession = fs.existsSync('auth.json');
@@ -17,8 +17,8 @@ test('update Naukri resume headline', async ({ page }) => {
     }
 
     const profile = new ProfilePage(page);
-    await profile.open(config.profileName);
-    await profile.updateResumeHeadline(headlineForToday(config.headline));
+    await profile.open();
+    await profile.toggleHeadlineDot();
   } catch (error) {
     const body = (await page.locator('body').innerText().catch(() => '')).replace(/\s+/g, ' ').slice(0, 300);
     const details = `URL: ${page.url()}\nTitle: ${await page.title().catch(() => '')}\nPage text: ${body}`;

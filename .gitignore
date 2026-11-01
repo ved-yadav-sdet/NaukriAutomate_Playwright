@@ -12,3 +12,4 @@ node_modules/
 # Saved login session (sensitive)
 auth.json
 auth.b64
+.DS_Store
