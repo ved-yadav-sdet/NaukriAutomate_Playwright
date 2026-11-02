@@ -94,10 +94,9 @@ Cron uses UTC. The defaults in `playwright.yml` are:
 
 | IST | UTC cron | Job |
 |---|---|---|
-| 08:45 | `15 3 * * *` | Resume re-upload (once a day) |
-| 09:00 | `30 3 * * *` | Headline dot toggle |
-| 13:45 | `15 8 * * *` | Headline dot toggle |
-| 16:45 | `0 11 * * *` | Headline dot toggle |
+| 08:37 | `7 3 * * *` | Resume re-upload + headline toggle (once a day) |
+| 14:11 | `41 8 * * *` | Headline dot toggle |
+| 16:53 | `23 11 * * *` | Headline dot toggle |
 
 Manual runs (**Run workflow**) let you choose `all`, `headline` or `resume`.
 

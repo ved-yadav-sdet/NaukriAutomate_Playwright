@@ -1,10 +1,9 @@
 name: Naukri Profile Update
 on:
   schedule:
-    - cron: '15 3 * * *'  # 08:45 IST: resume re-upload
-    - cron: '30 3 * * *'  # 09:00 IST: headline
-    - cron: '15 8 * * *'  # 13:45 IST
-    - cron: '0 11 * * *'  # 16:45 IST
+    - cron: '7 3 * * *'   # 08:37 IST: resume + headline
+    - cron: '41 8 * * *'  # 14:11 IST: headline
+    - cron: '23 11 * * *' # 16:53 IST: headline
   workflow_dispatch:
     inputs:
       job:
@@ -36,7 +35,7 @@ jobs:
     - name: Pick job
       id: pick
       run: |
-        if [ "${{ github.event.schedule }}" = "15 3 * * *" ]; then echo "script=upload-resume" >> "$GITHUB_OUTPUT"
+        if [ "${{ github.event.schedule }}" = "7 3 * * *" ]; then echo "script=update-all" >> "$GITHUB_OUTPUT"
         elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
           case "${{ inputs.job }}" in
             resume) echo "script=upload-resume" >> "$GITHUB_OUTPUT" ;;
